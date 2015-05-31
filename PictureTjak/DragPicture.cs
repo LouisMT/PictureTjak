@@ -10,21 +10,21 @@
         {
             get
             {
-                return startX;
+                return this.startX;
             }
         }
         public int StartY
         {
             get
             {
-                return startY;
+                return this.startY;
             }
         }
         public bool IsDragging
         {
             get
             {
-                return isDragging;
+                return this.isDragging;
             }
         }
 

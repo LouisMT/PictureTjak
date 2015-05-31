@@ -100,10 +100,12 @@ namespace PictureTjak
 
             if (images.HasImage)
             {
+                this.Text = String.Format("{0} ({1}/{2})", this.ProductName, images.CurrentIndex + 1, images.Count);
                 currentPicture.Image = images.CurrentImage;
             }
             else
             {
+                this.Text = this.ProductName;
                 currentPicture.Image = null;
             }
 

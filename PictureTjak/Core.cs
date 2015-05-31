@@ -11,11 +11,10 @@ namespace PictureTjak
 {
     public partial class Core : Form
     {
-        private int startX;
-        private int startY;
-        private bool dragging;
-        private int currentIndex = 0;
-        private List<Image> images = new List<Image>();
+        private int startX = 0;
+        private int startY = 0;
+        private bool dragging = false;
+        private ImageList images = new ImageList();
 
         private enum UpdateType
         {
@@ -77,31 +76,34 @@ namespace PictureTjak
             switch (updateType)
             {
                 case UpdateType.First:
-                    currentIndex = 0;
+                    images.CurrentIndex = images.MinIndex;
                     break;
 
                 case UpdateType.Last:
-                    currentIndex = images.Count - 1;
+                    images.CurrentIndex = images.MaxIndex;
                     break;
 
                 case UpdateType.Previous:
-                    currentIndex--;
+                    if (images.CurrentIndex > images.MinIndex)
+                    {
+                        images.CurrentIndex--;
+                    }
                     break;
 
                 case UpdateType.Next:
-                    currentIndex++;
+                    if (images.CurrentIndex < images.MaxIndex)
+                    {
+                        images.CurrentIndex++;
+                    }
                     break;
             }
 
-            if (currentIndex >= 0 && currentIndex < images.Count)
-            {
-                currentPicture.Top = 0;
-                currentPicture.Left = 0;
-                currentPicture.Image = images[currentIndex];
+            currentPicture.Top = 0;
+            currentPicture.Left = 0;
+            currentPicture.Image = images.CurrentImage;
 
-                buttonPreviousPicture.Enabled = (currentIndex != 0);
-                buttonNextPicture.Enabled = (currentIndex != images.Count - 1);
-            }
+            buttonPreviousPicture.Enabled = (images.CurrentIndex != images.MinIndex);
+            buttonNextPicture.Enabled = (images.CurrentIndex != images.MaxIndex);
         }
 
         #endregion
@@ -154,6 +156,18 @@ namespace PictureTjak
         private void NextPictureHandler(object sender, EventArgs e)
         {
             UpdateImage(UpdateType.Next);
+        }
+
+        private void CoreKeyUpHandler(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left)
+            {
+                UpdateImage(UpdateType.Previous);
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                UpdateImage(UpdateType.Next);
+            }
         }
 
         #endregion

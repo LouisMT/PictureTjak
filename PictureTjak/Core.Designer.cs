@@ -163,6 +163,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 461);
             this.Controls.Add(this.mainTableLayout);
+            this.KeyPreview = true;
             this.Name = "Core";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -170,6 +171,7 @@
             this.SizeChanged += new System.EventHandler(this.CoreSizeChangedHandler);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.CoreDragDropHandler);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.CoreDragEnterHandler);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CoreKeyUpHandler);
             this.mainTableLayout.ResumeLayout(false);
             this.buttonTableLayout.ResumeLayout(false);
             this.picturePanel.ResumeLayout(false);

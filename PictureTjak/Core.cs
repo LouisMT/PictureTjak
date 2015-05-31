@@ -11,10 +11,8 @@ namespace PictureTjak
 {
     public partial class Core : Form
     {
-        private int startX = 0;
-        private int startY = 0;
-        private bool dragging = false;
         private ImageList images = new ImageList();
+        private DragPicture dragPicture = new DragPicture();
 
         private enum UpdateType
         {
@@ -188,9 +186,9 @@ namespace PictureTjak
 
         private void CurrentPictureMoveHandler(object sender, MouseEventArgs e)
         {
-            if (dragging)
+            if (dragPicture.IsDragging)
             {
-                var top = e.Y + currentPicture.Top - startY;
+                var top = e.Y + currentPicture.Top - dragPicture.StartY;
                 if (top > 0 || picturePanel.Height - currentPicture.Height > 0)
                 {
                     top = 0;
@@ -200,7 +198,7 @@ namespace PictureTjak
                     top = -(currentPicture.Height - picturePanel.Height);
                 }
 
-                var left = e.X + currentPicture.Left - startX;
+                var left = e.X + currentPicture.Left - dragPicture.StartX;
                 if (left > 0 || picturePanel.Width - currentPicture.Width > 0)
                 {
                     left = 0;
@@ -219,15 +217,13 @@ namespace PictureTjak
         {
             if (e.Button == MouseButtons.Left)
             {
-                dragging = true;
-                startX = e.X;
-                startY = e.Y;
+                dragPicture.Start(e.X, e.Y);
             }
         }
 
         private void CurrentPictureUpHandler(object sender, MouseEventArgs e)
         {
-            dragging = false;
+            dragPicture.End();
         }
 
         #endregion

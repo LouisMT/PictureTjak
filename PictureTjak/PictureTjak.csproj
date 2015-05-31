@@ -52,6 +52,7 @@
       <DependentUpon>Core.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageList.cs" />
+    <Compile Include="DragPicture.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Core.resx">

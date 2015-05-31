@@ -31,8 +31,15 @@ namespace PictureTjak
         {
             get
             {
-                return this.Count - 1;
+                return (this.Count > 0) ? this.Count - 1 : 0;
             }
+        }
+
+        public new void Clear()
+        {
+            this.CurrentIndex = this.MinIndex;
+
+            base.Clear();
         }
     }
 }

@@ -100,7 +100,15 @@ namespace PictureTjak
 
             currentPicture.Top = 0;
             currentPicture.Left = 0;
-            currentPicture.Image = images.CurrentImage;
+
+            if (images.Any())
+            {
+                currentPicture.Image = images.CurrentImage;
+            }
+            else
+            {
+                currentPicture.Image = null;
+            }
 
             buttonPreviousPicture.Enabled = (images.CurrentIndex != images.MinIndex);
             buttonNextPicture.Enabled = (images.CurrentIndex != images.MaxIndex);

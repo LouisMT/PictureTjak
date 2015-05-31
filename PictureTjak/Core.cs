@@ -101,7 +101,7 @@ namespace PictureTjak
             currentPicture.Top = 0;
             currentPicture.Left = 0;
 
-            if (images.Any())
+            if (images.HasImage)
             {
                 currentPicture.Image = images.CurrentImage;
             }
@@ -112,6 +112,7 @@ namespace PictureTjak
 
             buttonPreviousPicture.Enabled = (images.CurrentIndex != images.MinIndex);
             buttonNextPicture.Enabled = (images.CurrentIndex != images.MaxIndex);
+            buttonCopyPicture.Enabled = images.HasImage;
         }
 
         #endregion
@@ -147,9 +148,12 @@ namespace PictureTjak
             openWordDocument.ShowDialog();
         }
 
-        private void OpenIssueHandler(object sender, EventArgs e)
+        private void CopyPictureHandler(object sender, EventArgs e)
         {
-
+            if (images.HasImage)
+            {
+                Clipboard.SetImage(images.CurrentImage);
+            }
         }
 
         #endregion

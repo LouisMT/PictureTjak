@@ -5,6 +5,14 @@ namespace PictureTjak
 {
     class ImageList : List<Image>
     {
+        public bool HasImage
+        {
+            get
+            {
+                return this.Count > 0;
+            }
+        }
+
         public int CurrentIndex
         {
             get;

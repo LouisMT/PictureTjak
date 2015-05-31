@@ -33,7 +33,7 @@
             this.buttonTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.buttonPreviousPicture = new System.Windows.Forms.Button();
             this.buttonOpenWordDocument = new System.Windows.Forms.Button();
-            this.buttonOpenIssue = new System.Windows.Forms.Button();
+            this.buttonCopyPicture = new System.Windows.Forms.Button();
             this.buttonNextPicture = new System.Windows.Forms.Button();
             this.picturePanel = new System.Windows.Forms.Panel();
             this.currentPicture = new System.Windows.Forms.PictureBox();
@@ -74,7 +74,7 @@
             this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.buttonTableLayout.Controls.Add(this.buttonPreviousPicture, 0, 0);
             this.buttonTableLayout.Controls.Add(this.buttonOpenWordDocument, 1, 0);
-            this.buttonTableLayout.Controls.Add(this.buttonOpenIssue, 2, 0);
+            this.buttonTableLayout.Controls.Add(this.buttonCopyPicture, 2, 0);
             this.buttonTableLayout.Controls.Add(this.buttonNextPicture, 3, 0);
             this.buttonTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonTableLayout.Location = new System.Drawing.Point(0, 432);
@@ -109,17 +109,17 @@
             this.buttonOpenWordDocument.UseVisualStyleBackColor = true;
             this.buttonOpenWordDocument.Click += new System.EventHandler(this.OpenWordDocumentHandler);
             // 
-            // buttonOpenIssue
+            // buttonCopyPicture
             // 
-            this.buttonOpenIssue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonOpenIssue.Enabled = false;
-            this.buttonOpenIssue.Location = new System.Drawing.Point(369, 3);
-            this.buttonOpenIssue.Name = "buttonOpenIssue";
-            this.buttonOpenIssue.Size = new System.Drawing.Size(177, 23);
-            this.buttonOpenIssue.TabIndex = 2;
-            this.buttonOpenIssue.Text = "Open issue";
-            this.buttonOpenIssue.UseVisualStyleBackColor = true;
-            this.buttonOpenIssue.Click += new System.EventHandler(this.OpenIssueHandler);
+            this.buttonCopyPicture.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonCopyPicture.Enabled = false;
+            this.buttonCopyPicture.Location = new System.Drawing.Point(369, 3);
+            this.buttonCopyPicture.Name = "buttonCopyPicture";
+            this.buttonCopyPicture.Size = new System.Drawing.Size(177, 23);
+            this.buttonCopyPicture.TabIndex = 2;
+            this.buttonCopyPicture.Text = "Copy picture";
+            this.buttonCopyPicture.UseVisualStyleBackColor = true;
+            this.buttonCopyPicture.Click += new System.EventHandler(this.CopyPictureHandler);
             // 
             // buttonNextPicture
             // 
@@ -188,7 +188,7 @@
         private System.Windows.Forms.TableLayoutPanel buttonTableLayout;
         private System.Windows.Forms.Button buttonPreviousPicture;
         private System.Windows.Forms.Button buttonOpenWordDocument;
-        private System.Windows.Forms.Button buttonOpenIssue;
+        private System.Windows.Forms.Button buttonCopyPicture;
         private System.Windows.Forms.Button buttonNextPicture;
         private System.Windows.Forms.Panel picturePanel;
         private System.Windows.Forms.PictureBox currentPicture;

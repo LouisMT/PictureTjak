@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace PictureTjak
@@ -21,9 +25,61 @@ namespace PictureTjak
             Next
         }
 
-        public Core()
+        [DllImport("user32")]
+        public static extern uint SendMessage(IntPtr hWnd, uint msg, uint wParam, uint lParam);
+
+        private const string OpenCommand = "open";
+        private const string RegisterCommand = "register";
+        private const string UrlName = "picture-tjak";
+        private const string RunAsVerb = "runas";
+
+        public Core(string[] args)
         {
+            if (args.Any(a => a == RegisterCommand))
+            {
+                try
+                {
+                    var key = Registry.ClassesRoot.CreateSubKey(UrlName);
+                    key.SetValue(string.Empty, "URL:PictureTjak");
+                    key.SetValue("URL Protocol", string.Empty);
+                    key.Close();
+
+                    key = Registry.ClassesRoot.CreateSubKey(string.Format(@"{0}\DefaultIcon", UrlName));
+                    key.SetValue(string.Empty, string.Format("{0},1", Application.ExecutablePath));
+                    key.Close();
+
+                    key = Registry.ClassesRoot.CreateSubKey(string.Format(@"{0}\shell\open\command", UrlName));
+                    key.SetValue(string.Empty, string.Format("\"{0}\" \"{1}:%1\"", Application.ExecutablePath, OpenCommand));
+                    key.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to register URL handler.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else if (args.Any(a => a.StartsWith(OpenCommand)))
+            {
+                var url = args.First(a => a.StartsWith(string.Format("{0}:{1}://", OpenCommand, UrlName)))
+                    .Replace(string.Format("{0}:{1}://", OpenCommand, UrlName), string.Empty);
+
+                try
+                {
+                    var tempFileName = Path.GetTempFileName();
+                    using (var webClient = new WebClient())
+                    {
+                        webClient.DownloadFile(url, tempFileName);
+                    }
+                    AddWordDocuments(new string[] { tempFileName });
+                }
+                catch
+                {
+                    MessageBox.Show("Failed to open file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
             InitializeComponent();
+
+            SendMessage(buttonRegisterUrlHandler.Handle, 0x160C, 0, 0xFFFFFFFF);
         }
 
         private void CoreSizeChangedHandler(object sender, EventArgs e)
@@ -225,6 +281,22 @@ namespace PictureTjak
         private void CurrentPictureUpHandler(object sender, MouseEventArgs e)
         {
             dragPicture.End();
+        }
+
+        #endregion
+
+        #region Register URL
+
+        private void RegisterUrlHandler(object sender, EventArgs e)
+        {
+            var process = new ProcessStartInfo
+            {
+                FileName = Application.ExecutablePath,
+                Arguments = RegisterCommand,
+                Verb = RunAsVerb
+            };
+
+            Process.Start(process);
         }
 
         #endregion

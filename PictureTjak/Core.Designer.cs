@@ -33,8 +33,9 @@
             this.buttonTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.buttonPreviousPicture = new System.Windows.Forms.Button();
             this.buttonOpenWordDocument = new System.Windows.Forms.Button();
-            this.buttonCopyPicture = new System.Windows.Forms.Button();
             this.buttonNextPicture = new System.Windows.Forms.Button();
+            this.buttonCopyPicture = new System.Windows.Forms.Button();
+            this.buttonRegisterUrlHandler = new System.Windows.Forms.Button();
             this.picturePanel = new System.Windows.Forms.Panel();
             this.currentPicture = new System.Windows.Forms.PictureBox();
             this.mainTableLayout.SuspendLayout();
@@ -67,22 +68,23 @@
             // 
             // buttonTableLayout
             // 
-            this.buttonTableLayout.ColumnCount = 4;
+            this.buttonTableLayout.ColumnCount = 5;
+            this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.buttonTableLayout.Controls.Add(this.buttonPreviousPicture, 0, 0);
             this.buttonTableLayout.Controls.Add(this.buttonOpenWordDocument, 1, 0);
-            this.buttonTableLayout.Controls.Add(this.buttonCopyPicture, 2, 0);
-            this.buttonTableLayout.Controls.Add(this.buttonNextPicture, 3, 0);
+            this.buttonTableLayout.Controls.Add(this.buttonNextPicture, 4, 0);
+            this.buttonTableLayout.Controls.Add(this.buttonCopyPicture, 3, 0);
+            this.buttonTableLayout.Controls.Add(this.buttonRegisterUrlHandler, 2, 0);
             this.buttonTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonTableLayout.Location = new System.Drawing.Point(0, 432);
             this.buttonTableLayout.Margin = new System.Windows.Forms.Padding(0);
             this.buttonTableLayout.Name = "buttonTableLayout";
             this.buttonTableLayout.RowCount = 1;
             this.buttonTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.buttonTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.buttonTableLayout.Size = new System.Drawing.Size(734, 29);
             this.buttonTableLayout.TabIndex = 0;
             // 
@@ -92,7 +94,7 @@
             this.buttonPreviousPicture.Enabled = false;
             this.buttonPreviousPicture.Location = new System.Drawing.Point(3, 3);
             this.buttonPreviousPicture.Name = "buttonPreviousPicture";
-            this.buttonPreviousPicture.Size = new System.Drawing.Size(177, 23);
+            this.buttonPreviousPicture.Size = new System.Drawing.Size(67, 23);
             this.buttonPreviousPicture.TabIndex = 0;
             this.buttonPreviousPicture.Text = "<";
             this.buttonPreviousPicture.UseVisualStyleBackColor = true;
@@ -101,7 +103,7 @@
             // buttonOpenWordDocument
             // 
             this.buttonOpenWordDocument.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonOpenWordDocument.Location = new System.Drawing.Point(186, 3);
+            this.buttonOpenWordDocument.Location = new System.Drawing.Point(76, 3);
             this.buttonOpenWordDocument.Name = "buttonOpenWordDocument";
             this.buttonOpenWordDocument.Size = new System.Drawing.Size(177, 23);
             this.buttonOpenWordDocument.TabIndex = 1;
@@ -109,11 +111,23 @@
             this.buttonOpenWordDocument.UseVisualStyleBackColor = true;
             this.buttonOpenWordDocument.Click += new System.EventHandler(this.OpenWordDocumentHandler);
             // 
+            // buttonNextPicture
+            // 
+            this.buttonNextPicture.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonNextPicture.Enabled = false;
+            this.buttonNextPicture.Location = new System.Drawing.Point(662, 3);
+            this.buttonNextPicture.Name = "buttonNextPicture";
+            this.buttonNextPicture.Size = new System.Drawing.Size(69, 23);
+            this.buttonNextPicture.TabIndex = 3;
+            this.buttonNextPicture.Text = ">";
+            this.buttonNextPicture.UseVisualStyleBackColor = true;
+            this.buttonNextPicture.Click += new System.EventHandler(this.NextPictureHandler);
+            // 
             // buttonCopyPicture
             // 
             this.buttonCopyPicture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonCopyPicture.Enabled = false;
-            this.buttonCopyPicture.Location = new System.Drawing.Point(369, 3);
+            this.buttonCopyPicture.Location = new System.Drawing.Point(479, 3);
             this.buttonCopyPicture.Name = "buttonCopyPicture";
             this.buttonCopyPicture.Size = new System.Drawing.Size(177, 23);
             this.buttonCopyPicture.TabIndex = 2;
@@ -121,17 +135,17 @@
             this.buttonCopyPicture.UseVisualStyleBackColor = true;
             this.buttonCopyPicture.Click += new System.EventHandler(this.CopyPictureHandler);
             // 
-            // buttonNextPicture
+            // buttonRegisterUrlHandler
             // 
-            this.buttonNextPicture.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonNextPicture.Enabled = false;
-            this.buttonNextPicture.Location = new System.Drawing.Point(552, 3);
-            this.buttonNextPicture.Name = "buttonNextPicture";
-            this.buttonNextPicture.Size = new System.Drawing.Size(179, 23);
-            this.buttonNextPicture.TabIndex = 3;
-            this.buttonNextPicture.Text = ">";
-            this.buttonNextPicture.UseVisualStyleBackColor = true;
-            this.buttonNextPicture.Click += new System.EventHandler(this.NextPictureHandler);
+            this.buttonRegisterUrlHandler.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonRegisterUrlHandler.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.buttonRegisterUrlHandler.Location = new System.Drawing.Point(259, 3);
+            this.buttonRegisterUrlHandler.Name = "buttonRegisterUrlHandler";
+            this.buttonRegisterUrlHandler.Size = new System.Drawing.Size(214, 23);
+            this.buttonRegisterUrlHandler.TabIndex = 4;
+            this.buttonRegisterUrlHandler.Text = "Register URL handler";
+            this.buttonRegisterUrlHandler.UseVisualStyleBackColor = true;
+            this.buttonRegisterUrlHandler.Click += new System.EventHandler(this.RegisterUrlHandler);
             // 
             // picturePanel
             // 
@@ -192,6 +206,7 @@
         private System.Windows.Forms.Button buttonNextPicture;
         private System.Windows.Forms.Panel picturePanel;
         private System.Windows.Forms.PictureBox currentPicture;
+        private System.Windows.Forms.Button buttonRegisterUrlHandler;
     }
 }
 

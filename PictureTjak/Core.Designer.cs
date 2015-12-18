@@ -182,6 +182,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PictureTjak";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.SizeChanged += new System.EventHandler(this.CoreSizeChangedHandler);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.CoreDragDropHandler);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.CoreDragEnterHandler);

@@ -36,6 +36,8 @@ namespace PictureTjak
 
         public Core(string[] args)
         {
+            InitializeComponent();
+
             if (args.Any(a => a == RegisterCommand))
             {
                 try
@@ -60,8 +62,7 @@ namespace PictureTjak
             }
             else if (args.Any(a => a.StartsWith(OpenCommand)))
             {
-                var url = args.First(a => a.StartsWith($"{OpenCommand}:{UrlName}://"))
-                    .Replace($"{OpenCommand}:{UrlName}://", string.Empty);
+                var url = args.First(a => a.StartsWith(OpenCommand)).Replace($"{OpenCommand}:{UrlName}://", string.Empty);
 
                 try
                 {
@@ -77,8 +78,6 @@ namespace PictureTjak
                     MessageBox.Show(Resources.Failed_to_open_file, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            InitializeComponent();
 
             SendMessage(buttonRegisterUrlHandler.Handle, 0x160C, 0, 0xFFFFFFFF);
         }

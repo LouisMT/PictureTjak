@@ -70,20 +70,11 @@ namespace PictureTjak.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to open file..
+        ///   Looks up a localized string similar to Failed to register file handler..
         /// </summary>
-        internal static string Failed_to_open_file {
+        internal static string Failed_to_register_file_handler {
             get {
-                return ResourceManager.GetString("Failed_to_open_file", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to register URL handler..
-        /// </summary>
-        internal static string Failed_to_register_URL_handler {
-            get {
-                return ResourceManager.GetString("Failed_to_register_URL_handler", resourceCulture);
+                return ResourceManager.GetString("Failed_to_register_file_handler", resourceCulture);
             }
         }
     }

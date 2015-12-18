@@ -120,10 +120,7 @@
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="Failed_to_register_URL_handler" xml:space="preserve">
-    <value>Failed to register URL handler.</value>
-  </data>
-  <data name="Failed_to_open_file" xml:space="preserve">
-    <value>Failed to open file.</value>
+  <data name="Failed_to_register_file_handler" xml:space="preserve">
+    <value>Failed to register file handler.</value>
   </data>
 </root>

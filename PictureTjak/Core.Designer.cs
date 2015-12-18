@@ -35,7 +35,7 @@
             this.buttonOpenWordDocument = new System.Windows.Forms.Button();
             this.buttonNextPicture = new System.Windows.Forms.Button();
             this.buttonCopyPicture = new System.Windows.Forms.Button();
-            this.buttonRegisterUrlHandler = new System.Windows.Forms.Button();
+            this.buttonRegisterFileHandler = new System.Windows.Forms.Button();
             this.picturePanel = new System.Windows.Forms.Panel();
             this.currentPicture = new System.Windows.Forms.PictureBox();
             this.mainTableLayout.SuspendLayout();
@@ -78,7 +78,7 @@
             this.buttonTableLayout.Controls.Add(this.buttonOpenWordDocument, 1, 0);
             this.buttonTableLayout.Controls.Add(this.buttonNextPicture, 4, 0);
             this.buttonTableLayout.Controls.Add(this.buttonCopyPicture, 3, 0);
-            this.buttonTableLayout.Controls.Add(this.buttonRegisterUrlHandler, 2, 0);
+            this.buttonTableLayout.Controls.Add(this.buttonRegisterFileHandler, 2, 0);
             this.buttonTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.buttonTableLayout.Location = new System.Drawing.Point(0, 432);
             this.buttonTableLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -135,17 +135,17 @@
             this.buttonCopyPicture.UseVisualStyleBackColor = true;
             this.buttonCopyPicture.Click += new System.EventHandler(this.CopyPictureHandler);
             // 
-            // buttonRegisterUrlHandler
+            // buttonRegisterFileHandler
             // 
-            this.buttonRegisterUrlHandler.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonRegisterUrlHandler.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.buttonRegisterUrlHandler.Location = new System.Drawing.Point(259, 3);
-            this.buttonRegisterUrlHandler.Name = "buttonRegisterUrlHandler";
-            this.buttonRegisterUrlHandler.Size = new System.Drawing.Size(214, 23);
-            this.buttonRegisterUrlHandler.TabIndex = 4;
-            this.buttonRegisterUrlHandler.Text = "Register URL handler";
-            this.buttonRegisterUrlHandler.UseVisualStyleBackColor = true;
-            this.buttonRegisterUrlHandler.Click += new System.EventHandler(this.RegisterUrlHandler);
+            this.buttonRegisterFileHandler.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonRegisterFileHandler.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.buttonRegisterFileHandler.Location = new System.Drawing.Point(259, 3);
+            this.buttonRegisterFileHandler.Name = "buttonRegisterFileHandler";
+            this.buttonRegisterFileHandler.Size = new System.Drawing.Size(214, 23);
+            this.buttonRegisterFileHandler.TabIndex = 4;
+            this.buttonRegisterFileHandler.Text = "Register file handler";
+            this.buttonRegisterFileHandler.UseVisualStyleBackColor = true;
+            this.buttonRegisterFileHandler.Click += new System.EventHandler(this.RegisterUrlHandler);
             // 
             // picturePanel
             // 
@@ -207,7 +207,7 @@
         private System.Windows.Forms.Button buttonNextPicture;
         private System.Windows.Forms.Panel picturePanel;
         private System.Windows.Forms.PictureBox currentPicture;
-        private System.Windows.Forms.Button buttonRegisterUrlHandler;
+        private System.Windows.Forms.Button buttonRegisterFileHandler;
     }
 }
 

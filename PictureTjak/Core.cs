@@ -1,15 +1,12 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using PictureTjak.Properties;
 
 namespace PictureTjak
 {
@@ -29,57 +26,17 @@ namespace PictureTjak
         [DllImport("user32")]
         public static extern uint SendMessage(IntPtr hWnd, uint msg, uint wParam, uint lParam);
 
-        private const string OpenCommand = "open";
-        private const string RegisterCommand = "register";
-        private const string UrlName = "picture-tjak";
-        private const string RunAsVerb = "runas";
-
         public Core(string[] args)
         {
             InitializeComponent();
+            SendMessage(buttonRegisterFileHandler.Handle, 0x160C, 0, 0xFFFFFFFF);
 
-            if (args.Any(a => a == RegisterCommand))
+            var paths = args.Where(File.Exists).ToArray();
+
+            if (paths.Length > 0)
             {
-                try
-                {
-                    var key = Registry.ClassesRoot.CreateSubKey(UrlName);
-                    key.SetValue(string.Empty, "URL:PictureTjak");
-                    key.SetValue("URL Protocol", string.Empty);
-                    key.Close();
-
-                    key = Registry.ClassesRoot.CreateSubKey($@"{UrlName}\DefaultIcon");
-                    key.SetValue(string.Empty, $"{Application.ExecutablePath},1");
-                    key.Close();
-
-                    key = Registry.ClassesRoot.CreateSubKey($@"{UrlName}\shell\open\command");
-                    key.SetValue(string.Empty, $"\"{Application.ExecutablePath}\" \"{OpenCommand}:%1\"");
-                    key.Close();
-                }
-                catch
-                {
-                    MessageBox.Show(Resources.Failed_to_register_URL_handler, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                AddWordDocuments(paths);
             }
-            else if (args.Any(a => a.StartsWith(OpenCommand)))
-            {
-                var url = args.First(a => a.StartsWith(OpenCommand)).Replace($"{OpenCommand}:{UrlName}://", string.Empty);
-
-                try
-                {
-                    var tempFileName = Path.GetTempFileName();
-                    using (var webClient = new WebClient())
-                    {
-                        webClient.DownloadFile(url, tempFileName);
-                    }
-                    AddWordDocuments(new[] { tempFileName });
-                }
-                catch
-                {
-                    MessageBox.Show(Resources.Failed_to_open_file, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-
-            SendMessage(buttonRegisterUrlHandler.Handle, 0x160C, 0, 0xFFFFFFFF);
         }
 
         private void CoreSizeChangedHandler(object sender, EventArgs e)
@@ -294,8 +251,8 @@ namespace PictureTjak
             var process = new ProcessStartInfo
             {
                 FileName = Application.ExecutablePath,
-                Arguments = RegisterCommand,
-                Verb = RunAsVerb
+                Arguments = Program.RegisterCommand,
+                Verb = Program.RunAsVerb
             };
 
             Process.Start(process);

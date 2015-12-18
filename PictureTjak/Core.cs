@@ -9,13 +9,14 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using PictureTjak.Properties;
 
 namespace PictureTjak
 {
     public partial class Core : Form
     {
-        private ImageList images = new ImageList();
-        private DragPicture dragPicture = new DragPicture();
+        private readonly ImageList _images = new ImageList();
+        private readonly DragPicture _dragPicture = new DragPicture();
 
         private enum UpdateType
         {
@@ -44,23 +45,23 @@ namespace PictureTjak
                     key.SetValue("URL Protocol", string.Empty);
                     key.Close();
 
-                    key = Registry.ClassesRoot.CreateSubKey(string.Format(@"{0}\DefaultIcon", UrlName));
-                    key.SetValue(string.Empty, string.Format("{0},1", Application.ExecutablePath));
+                    key = Registry.ClassesRoot.CreateSubKey($@"{UrlName}\DefaultIcon");
+                    key.SetValue(string.Empty, $"{Application.ExecutablePath},1");
                     key.Close();
 
-                    key = Registry.ClassesRoot.CreateSubKey(string.Format(@"{0}\shell\open\command", UrlName));
-                    key.SetValue(string.Empty, string.Format("\"{0}\" \"{1}:%1\"", Application.ExecutablePath, OpenCommand));
+                    key = Registry.ClassesRoot.CreateSubKey($@"{UrlName}\shell\open\command");
+                    key.SetValue(string.Empty, $"\"{Application.ExecutablePath}\" \"{OpenCommand}:%1\"");
                     key.Close();
                 }
                 catch
                 {
-                    MessageBox.Show("Failed to register URL handler.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Resources.Failed_to_register_URL_handler, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else if (args.Any(a => a.StartsWith(OpenCommand)))
             {
-                var url = args.First(a => a.StartsWith(string.Format("{0}:{1}://", OpenCommand, UrlName)))
-                    .Replace(string.Format("{0}:{1}://", OpenCommand, UrlName), string.Empty);
+                var url = args.First(a => a.StartsWith($"{OpenCommand}:{UrlName}://"))
+                    .Replace($"{OpenCommand}:{UrlName}://", string.Empty);
 
                 try
                 {
@@ -69,11 +70,11 @@ namespace PictureTjak
                     {
                         webClient.DownloadFile(url, tempFileName);
                     }
-                    AddWordDocuments(new string[] { tempFileName });
+                    AddWordDocuments(new[] { tempFileName });
                 }
                 catch
                 {
-                    MessageBox.Show("Failed to open file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Resources.Failed_to_open_file, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
@@ -93,7 +94,7 @@ namespace PictureTjak
 
         private void AddWordDocuments(string[] paths)
         {
-            images.Clear();
+            _images.Clear();
 
             foreach (var path in paths)
             {
@@ -109,7 +110,7 @@ namespace PictureTjak
                             {
                                 using (var imageEntryStream = imageEntry.Open())
                                 {
-                                    images.Add(Image.FromStream(imageEntryStream));
+                                    _images.Add(Image.FromStream(imageEntryStream));
                                 }
                             }
                         }
@@ -129,24 +130,24 @@ namespace PictureTjak
             switch (updateType)
             {
                 case UpdateType.First:
-                    images.CurrentIndex = images.MinIndex;
+                    _images.CurrentIndex = _images.MinIndex;
                     break;
 
                 case UpdateType.Last:
-                    images.CurrentIndex = images.MaxIndex;
+                    _images.CurrentIndex = _images.MaxIndex;
                     break;
 
                 case UpdateType.Previous:
-                    if (images.CurrentIndex > images.MinIndex)
+                    if (_images.CurrentIndex > _images.MinIndex)
                     {
-                        images.CurrentIndex--;
+                        _images.CurrentIndex--;
                     }
                     break;
 
                 case UpdateType.Next:
-                    if (images.CurrentIndex < images.MaxIndex)
+                    if (_images.CurrentIndex < _images.MaxIndex)
                     {
-                        images.CurrentIndex++;
+                        _images.CurrentIndex++;
                     }
                     break;
             }
@@ -154,20 +155,20 @@ namespace PictureTjak
             currentPicture.Top = 0;
             currentPicture.Left = 0;
 
-            if (images.HasImage)
+            if (_images.HasImage)
             {
-                this.Text = String.Format("{0} ({1}/{2})", this.ProductName, images.CurrentIndex + 1, images.Count);
-                currentPicture.Image = images.CurrentImage;
+                Text = $"{ProductName} ({_images.CurrentIndex + 1}/{_images.Count})";
+                currentPicture.Image = _images.CurrentImage;
             }
             else
             {
-                this.Text = this.ProductName;
+                Text = ProductName;
                 currentPicture.Image = null;
             }
 
-            buttonPreviousPicture.Enabled = (images.CurrentIndex != images.MinIndex);
-            buttonNextPicture.Enabled = (images.CurrentIndex != images.MaxIndex);
-            buttonCopyPicture.Enabled = images.HasImage;
+            buttonPreviousPicture.Enabled = (_images.CurrentIndex != _images.MinIndex);
+            buttonNextPicture.Enabled = (_images.CurrentIndex != _images.MaxIndex);
+            buttonCopyPicture.Enabled = _images.HasImage;
         }
 
         #endregion
@@ -205,9 +206,9 @@ namespace PictureTjak
 
         private void CopyPictureHandler(object sender, EventArgs e)
         {
-            if (images.HasImage)
+            if (_images.HasImage)
             {
-                Clipboard.SetImage(images.CurrentImage);
+                Clipboard.SetImage(_images.CurrentImage);
             }
         }
 
@@ -243,44 +244,46 @@ namespace PictureTjak
 
         private void CurrentPictureMoveHandler(object sender, MouseEventArgs e)
         {
-            if (dragPicture.IsDragging)
+            if (!_dragPicture.IsDragging)
             {
-                var top = e.Y + currentPicture.Top - dragPicture.StartY;
-                if (top > 0 || picturePanel.Height - currentPicture.Height > 0)
-                {
-                    top = 0;
-                }
-                else if (Math.Abs(top) > currentPicture.Height - picturePanel.Height)
-                {
-                    top = -(currentPicture.Height - picturePanel.Height);
-                }
-
-                var left = e.X + currentPicture.Left - dragPicture.StartX;
-                if (left > 0 || picturePanel.Width - currentPicture.Width > 0)
-                {
-                    left = 0;
-                }
-                else if (Math.Abs(left) > currentPicture.Width - picturePanel.Width)
-                {
-                    left = -(currentPicture.Width - picturePanel.Width);
-                }
-
-                currentPicture.Top = top;
-                currentPicture.Left = left;
+                return;
             }
+
+            var top = e.Y + currentPicture.Top - _dragPicture.StartY;
+            if (top > 0 || picturePanel.Height - currentPicture.Height > 0)
+            {
+                top = 0;
+            }
+            else if (Math.Abs(top) > currentPicture.Height - picturePanel.Height)
+            {
+                top = -(currentPicture.Height - picturePanel.Height);
+            }
+
+            var left = e.X + currentPicture.Left - _dragPicture.StartX;
+            if (left > 0 || picturePanel.Width - currentPicture.Width > 0)
+            {
+                left = 0;
+            }
+            else if (Math.Abs(left) > currentPicture.Width - picturePanel.Width)
+            {
+                left = -(currentPicture.Width - picturePanel.Width);
+            }
+
+            currentPicture.Top = top;
+            currentPicture.Left = left;
         }
 
         private void CurrentPictureDownHandler(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                dragPicture.Start(e.X, e.Y);
+                _dragPicture.Start(e.X, e.Y);
             }
         }
 
         private void CurrentPictureUpHandler(object sender, MouseEventArgs e)
         {
-            dragPicture.End();
+            _dragPicture.End();
         }
 
         #endregion

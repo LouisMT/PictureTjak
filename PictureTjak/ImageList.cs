@@ -5,13 +5,7 @@ namespace PictureTjak
 {
     class ImageList : List<Image>
     {
-        public bool HasImage
-        {
-            get
-            {
-                return this.Count > 0;
-            }
-        }
+        public bool HasImage => Count > 0;
 
         public int CurrentIndex
         {
@@ -19,33 +13,15 @@ namespace PictureTjak
             set;
         }
 
-        public Image CurrentImage
-        {
-            get
-            {
-                return this[this.CurrentIndex];
-            }
-        }
+        public Image CurrentImage => this[CurrentIndex];
 
-        public int MinIndex
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public int MinIndex => 0;
 
-        public int MaxIndex
-        {
-            get
-            {
-                return (this.Count > 0) ? this.Count - 1 : 0;
-            }
-        }
+        public int MaxIndex => (Count > 0) ? Count - 1 : 0;
 
         public new void Clear()
         {
-            this.CurrentIndex = this.MinIndex;
+            CurrentIndex = MinIndex;
 
             base.Clear();
         }
